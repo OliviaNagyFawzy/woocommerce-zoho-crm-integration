@@ -7,32 +7,62 @@ address1=order_raw_data.get("billing").get("address_1");
 cityy=order_raw_data.get("billing").get("city");
 email=order_raw_data.get("billing").get("email");
 total=order_raw_data.get("total");
-
-
 phonee=order_raw_data.get("billing").get("phone");
+
+line_items = order_raw_data.get("line_items");
+products_summary = "";
+for each item in line_items
+{
+	item_name = item.get("name");
+	item_qty = item.get("quantity");
+	products_summary = products_summary + item_name + " (x" + item_qty + "), ";
+}
 
 contactinfo = {
 	"First_Name": firstname,
 	"Last_Name": lastname,
 	"Phone": phonee,
-	"Email": email, 
+	"Email": email,
 	"Mailing_City": cityy,
 	"Mailing_Street":address1
 	};
-	
+
+//Duplicate check
+contact_id = "";
+existing_contacts = zoho.crm.searchRecords("Contacts", "Email:equals:" + email);
+
+if(existing_contacts != null && existing_contacts.size() > 0)
+{
+	// Contact already exists -> update it instead of creating a duplicate
+	existing_id = existing_contacts.get(0).get("id");
+	update_response = zoho.crm.updateRecord("Contacts", existing_id, contactinfo);
+	contact_id = existing_id;
+	info "Contact updated: " + update_response;
+}
+else
+{
 	contact_response = zoho.crm.createRecord("Contacts", contactinfo);
 	contact_id = contact_response.get("id");
+	info "Contact created: " + contact_response;
+}
 
+if(contact_id != "" && contact_id != null)
+{
 	dealinfo = {
 		"Deal_Name": "Order for " + firstname + " " + lastname,
-		"Amount": total,
+		"Amount": total.toDecimal(),
 		"Stage": "Qualification",
-		"Contact_Name": contact_id
+		"Contact_Name": contact_id,
+		"Description": "Products: " + products_summary
 		};
 
 	deal_response = zoho.crm.createRecord("Deals", dealinfo);
-
-	info "Contact: " + contact_response;
 	info "Deal: " + deal_response;
+}
+else
+{
+	info "Contact creation/update failed - Deal was not created.";
+}
+
 return "";
 }

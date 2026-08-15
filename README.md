@@ -19,7 +19,7 @@ Automatically sync new WooCommerce orders into Zoho CRM:
 ## 🔄 How It Works
 
 1. A customer places an order on the local WooCommerce store.
-2. A WooCommerce **Webhook** (triggered on `Order updated`) sends the order payload to a Zoho CRM **Deluge Function**, exposed via Zoho's REST API.
+2. A WooCommerce **Webhook** (triggered on `Order created`) sends the order payload to a Zoho CRM **Deluge Function**, exposed via Zoho's REST API.
 3. The Deluge function parses the incoming payload and extracts:
    - Customer name, email, phone, address (from `billing`)
    - Order total
