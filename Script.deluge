@@ -1,0 +1,38 @@
+string standalone.WooCommerce_Webhook(String crmAPIRequest)
+{
+order_raw_data=crmAPIRequest.get("body");
+firstname=order_raw_data.get("billing").get("first_name");
+lastname=order_raw_data.get("billing").get("last_name");
+address1=order_raw_data.get("billing").get("address_1");
+cityy=order_raw_data.get("billing").get("city");
+email=order_raw_data.get("billing").get("email");
+total=order_raw_data.get("total");
+
+
+phonee=order_raw_data.get("billing").get("phone");
+
+contactinfo = {
+	"First_Name": firstname,
+	"Last_Name": lastname,
+	"Phone": phonee,
+	"Email": email, 
+	"Mailing_City": cityy,
+	"Mailing_Street":address1
+	};
+	
+	contact_response = zoho.crm.createRecord("Contacts", contactinfo);
+	contact_id = contact_response.get("id");
+
+	dealinfo = {
+		"Deal_Name": "Order for " + firstname + " " + lastname,
+		"Amount": total,
+		"Stage": "Qualification",
+		"Contact_Name": contact_id
+		};
+
+	deal_response = zoho.crm.createRecord("Deals", dealinfo);
+
+	info "Contact: " + contact_response;
+	info "Deal: " + deal_response;
+return "";
+}
