@@ -38,12 +38,11 @@ woocommerce-zoho-crm-integration/
 
 
 #
-## ✅ Manual Testing (via Postman)
+## Manual Testing (via Postman)
 
 Before automating via webhook, both APIs were tested manually and confirmed working:
 - `GET /wp-json/wc/v3/orders` — successfully retrieved order data (customer info, line items, totals) from the local WooCommerce store (over HTTPS, via LocalWP's SSL).
 - `POST /crm/v8/Contacts` and `POST /crm/v8/Deals` — successfully created a linked Contact and Deal in Zoho CRM using OAuth2 Bearer token authentication.
-> Note: The test Contact and Deal created during this manual Postman testing were deleted afterward, as they were created solely to verify the API connections and were not meant to remain as production data.
 
 Screenshots of these successful test calls are included in `/screenshots`.
 
