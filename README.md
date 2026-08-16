@@ -16,7 +16,7 @@ Automatically sync new WooCommerce orders into Zoho CRM:
 - **Deluge** — Zoho's scripting language, used to write the integration function
 - **Postman** — used to test both APIs manually before writing the final script
 
-## 🔄 How It Works
+##  How It Works
 
 1. A customer places an order on the local WooCommerce store.
 2. A WooCommerce **Webhook** (triggered on `Order created`) sends the order payload to a Zoho CRM **Deluge Function**, exposed via Zoho's REST API.
@@ -27,7 +27,7 @@ Automatically sync new WooCommerce orders into Zoho CRM:
    - Once to create/update the **Contact**
    - Once to create a **Deal**, linked to that Contact, with the order amount
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 woocommerce-zoho-crm-integration/

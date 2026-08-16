@@ -1,5 +1,6 @@
 string standalone.WooCommerce_Webhook(String crmAPIRequest)
 {
+//Getting data
 order_raw_data=crmAPIRequest.get("body");
 firstname=order_raw_data.get("billing").get("first_name");
 lastname=order_raw_data.get("billing").get("last_name");
